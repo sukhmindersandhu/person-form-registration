@@ -37,7 +37,7 @@ namespace api.Controllers
                 return new BadRequestObjectResult(response);
             }
 
-            return new OkObjectResult(response);
+            return new OkObjectResult(new { response });
         }
     }
 }

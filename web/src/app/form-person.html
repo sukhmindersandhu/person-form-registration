@@ -1,0 +1,40 @@
+<form [formGroup]="personForm" (ngSubmit)="save()">
+<p>
+  <mat-form-field appearance="legacy">
+    <mat-label>Id</mat-label>
+    <input matInput placeholder="Placeholder" formControlName="id">
+  </mat-form-field>
+</p>
+
+<p>
+  <mat-form-field appearance="legacy">
+    <mat-label>First Name</mat-label>
+    <input matInput placeholder="Placeholder" formControlName="firstName" required>
+  </mat-form-field>
+</p>
+
+<p>
+  <mat-form-field appearance="legacy">
+    <mat-label>Last Name</mat-label>
+    <input matInput placeholder="Placeholder" formControlName="lastName" required>
+  </mat-form-field>
+</p>
+
+<p>
+  <mat-form-field appearance="legacy">
+    <input matInput [matDatepicker]="picker" formControlName="dob">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</p>
+
+<p>
+  <button mat-raised-button color="primary" type="submit" [disabled]="!personForm.valid">Save</button>
+</p>
+<p>
+  <ng-container *ngIf="result$ | async as apiResult">
+    <div>{{apiResult}}</div>
+  </ng-container>
+ 
+</p>
+</form>

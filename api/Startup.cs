@@ -15,6 +15,7 @@ namespace api
 {
     public class Startup
     {
+        private const string uiUrl = "http://localhost:4200";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +28,16 @@ namespace api
         {
             services.AddScoped<IPersistence, FilePersistence>();
             services.AddScoped<IPersonService, PersonService>();
+
+            string corsUrl = uiUrl;
+            if (!string.IsNullOrEmpty(corsUrl))
+            {
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("apiCorsPolicy",
+                           builder => builder.WithOrigins(corsUrl.Split(",")).AllowAnyHeader().AllowAnyMethod());
+                });
+            }
 
             services.AddControllers();
         }
@@ -42,6 +53,19 @@ namespace api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            string corsUrl = uiUrl;
+            if (!string.IsNullOrEmpty(corsUrl))
+            {
+                app.UseCors("apiCorsPolicy");
+
+                // Add header:
+                app.Use((context, next) =>
+                {
+                    context.Response.Headers["Access-Control-Allow-Origin"] = corsUrl;
+                    return next.Invoke();
+                });
+            }
 
             app.UseEndpoints(endpoints =>
             {
