@@ -52,6 +52,8 @@ namespace api
 
             app.UseRouting();
 
+            app.UseExceptionMiddleware();
+
             app.UseAuthorization();
 
             string corsUrl = uiUrl;

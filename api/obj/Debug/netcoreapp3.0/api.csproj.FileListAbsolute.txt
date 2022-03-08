@@ -1,7 +1,6 @@
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.csprojAssemblyReference.cache
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\staticwebassets\api.StaticWebAssets.Manifest.cache
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\staticwebassets\api.StaticWebAssets.xml
-D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.MvcApplicationPartsAssemblyInfo.cache
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.AssemblyInfoInputs.cache
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.AssemblyInfo.cs
 D:\software\projects\interview\api\bin\Debug\netcoreapp3.0\appsettings.Development.json
@@ -16,3 +15,4 @@ D:\software\projects\interview\api\bin\Debug\netcoreapp3.0\api.pdb
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.RazorTargetAssemblyInfo.cache
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.dll
 D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.pdb
+D:\software\projects\interview\api\obj\Debug\netcoreapp3.0\api.MvcApplicationPartsAssemblyInfo.cache

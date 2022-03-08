@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { of, Subject } from 'rxjs';
+import { EMPTY, of, Subject } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { Person } from './models/person.model';
@@ -15,10 +15,16 @@ export class FormPerson {
   savePerson = new Subject<Person>();
   result$ = this.savePerson.asObservable().pipe(
     switchMap((p) => {
-      return this.apiService.AddPerson('person', p).pipe(map(x => x?.response))
+      return this.apiService.AddPerson('person', p).pipe(
+        map(x => x?.response),
+        catchError(e => {
+          console.log(e);
+          return of(`Api Error:${e?.errors}`);
+      }))
     }),
-    catchError(e => of(`Api Error:${e}`))
+    catchError(() => EMPTY)
   );
+
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {

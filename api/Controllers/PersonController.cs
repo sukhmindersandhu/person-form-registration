@@ -27,14 +27,14 @@ namespace api.Controllers
             {
                 string error = "Person payload is not valid";
                 logger.LogError(error);
-                return new BadRequestObjectResult(error);
+                return new BadRequestObjectResult(new { error });
             }
 
             string response = await personService.SavePerson(person);
             if (string.IsNullOrEmpty(response) || response.StartsWith("Error:"))
             {
                 logger.LogError(response);
-                return new BadRequestObjectResult(response);
+                return new BadRequestObjectResult(new { response });
             }
 
             return new OkObjectResult(new { response });
