@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { EMPTY, of, Subject } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { asapScheduler, combineLatest, EMPTY, of, Subject } from 'rxjs';
+import { catchError, map, observeOn, startWith, switchMap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { Person } from './models/person.model';
 
@@ -15,12 +15,16 @@ export class FormPerson {
   savePerson = new Subject<Person>();
   result$ = this.savePerson.asObservable().pipe(
     switchMap((p) => {
-      return this.apiService.AddPerson('person', p).pipe(
-        map(x => x?.response),
-        catchError(e => {
-          console.log(e);
-          return of(`Api Error:${e?.errors}`);
-      }))
+      if (p) {
+        return this.apiService.AddPerson('person', p).pipe(
+          map(x => x?.response),
+          catchError(e => {
+            console.log(e);
+            return of(`Api Error:${JSON.stringify(e)}`);
+        }))
+      }
+
+      return of(null);
     }),
     catchError(() => EMPTY)
   );
@@ -39,14 +43,16 @@ export class FormPerson {
       dob: new FormControl('', [
         Validators.required,]),
     });
-  }
 
-  getFirstName() {
-    return this.personForm.get('firstName');
-  }
-
-  getLastName() {
-    return this.personForm.get('lastName');
+    combineLatest([this.personForm.get('id')?.valueChanges.pipe(startWith([null])),
+                   this.personForm.get('firstName')?.valueChanges.pipe(startWith([null])),
+                   this.personForm.get('lastName')?.valueChanges.pipe(startWith([null])),
+                   this.personForm.get('dob')?.valueChanges.pipe(startWith([null]))]).pipe(
+      observeOn(asapScheduler)
+      ).subscribe(() => {
+        this.savePerson.next(undefined);
+      }
+    );
   }
 
   save() {
